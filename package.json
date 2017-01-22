@@ -1,15 +1,24 @@
 {
-  "name": "flatit",
+  "name": "flatnmap",
   "version": "0.0.1",
   "description": "flattens the nested data structure",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "flat",
-    "data"
+    "Normalized",
+    "Data",
+    "Flat"
   ],
   "author": "andrej bartko",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webduvet/flatnmap"
+  },
+  "dependencies": {},
+  "dev-dependencies": {
+    "uglify-js": "~2.4.3"
+  }
 }
