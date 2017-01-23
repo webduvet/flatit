@@ -8,36 +8,37 @@ and optionally maps the object to new template
 ## Use
 ```javascript
 var N = require('flatnmap');
+```
 
+### Flattening the structure
+
+Original data object example
+```javascript
 // need to extract items as flat list
 const original = {
   delegates: [{
-      name: ''
+      name: 'some name',
+      id: 'd01',
       other: {...},
+      // this two level of nesting represent conference and speaker
       itemComfirm: [
-        [
-          {
+        [{
             opening-item
-          },
-          {
+          }, {
             special-item
           }
-        ], // conferenve 1
-        [
-          {
+        ], [{
             fantasy-item
-          },
-        ]  // conference 2
+          }]
       ]
-    },
-  ]
+  }]
   otherProps: {
   }
 }
 
 const confirmMapSample = [{
   key: [{
-    prop: ['num'],
+    prop: ['id'],
     name: 'delegate',
   }],
   path: ['delegates'],
@@ -58,7 +59,10 @@ const confirmMapSample = [{
 N.normalize(original, [{
   mapper: confirmMapSample,
   prop: 'items'
-}]);
+}], {
+  mapper: delegateMap,
+  prop: 'delegates'
+});
 
 ```
 the above code will produce a flat structure for all items which are only stored
@@ -66,14 +70,14 @@ nested deep in delegates object.
 for each desired proprty in the output data we need to include coresponding
 mapper and property identifier on the final result.
 
-```
+```javascript
 desired output:
 {
   id: 'items',
   data: [
     {
       key: {
-        delegate: 1,
+        delegate: 'd01',
         conference: 001,
         speaker: 01
       },
@@ -83,7 +87,7 @@ desired output:
     },
     {
       key: {
-        delegate: 1,
+        delegate: 'd01',
         conference: 002
         speaker: 01
       },
@@ -93,4 +97,27 @@ desired output:
     }
   ]
 }
+```
+sometimes there is a need to reshape the object and strip out all nested structure from the top level
+object or simple strip out all unwanted data, flat and map provides optional template property which
+expects the object in the desired shape. all existing properties are then mapped to this template.
+```javascript
+N.normalize(original, [{
+  mapper: confirmMapSample,
+  prop: 'items'
+}], {
+  mapper: delegateMap,
+  prop: 'delegates',
+  template: delegateTemplate
+});
+```
+
+### mapping template
+
+where the delegate template could look like this:
+```javascript
+const delegateTemplate = {
+  id: undefined,
+  name: undefined,
+};
 ```
