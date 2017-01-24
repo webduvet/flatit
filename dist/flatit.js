@@ -65,7 +65,7 @@ function entryReducer(map, surrogateKey) {
 function flat(collection, map, surrogateKey) {
   return map.length
     ?
-    _path(map[0].path, collection)
+    [].concat(_path(map[0].path, collection))
       .reduce(entryReducer(map, surrogateKey), [])
     :
     [].concat(collection)

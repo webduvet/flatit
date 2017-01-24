@@ -2,9 +2,12 @@
   "name": "flatnmap",
   "version": "0.0.1",
   "description": "flattens the nested data structure",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "rm -rf dist && mkdir dist && cp ./src/* ./dist/",
+    "build": "npm run build:dist",
+    "build:dist": "rm -rf dist && npm bin/babel src --out-dir dist",
+    "test": "mocha --compilers js:babel-register --recursive"
   },
   "keywords": [
     "Normalized",
@@ -20,5 +23,13 @@
   "dependencies": {},
   "dev-dependencies": {
     "uglify-js": "~2.4.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.22.1",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-register": "^6.22.0",
+    "expect": "^1.20.2",
+    "mocha": "^3.2.0"
   }
 }
