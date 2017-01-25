@@ -16,7 +16,7 @@ function mapSurrogateKey(key) {
 /**
  * @param {Object} surrogate key inheritted from parent level or undefined
  * @param {Object} keymap or array of keys to create surrogate key
- * @returns {function} taking object and index to create te variations of
+ * @returns {function} taking object and index to create the variations of
  * surrogate key for individuals entries in the collection
  */
 function combineSurrogateKey(surrogateKey, keyMap) {

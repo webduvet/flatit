@@ -58,15 +58,23 @@ var _path = require('./path.js');
  * path containd the path to the level, if empty it is only nested array
  *
  */
-function normalize(collection, doc) {
+function normalize(collection, doc, type) {
+  if (type === 'array') {
+    return doc
+      .map(function(item) {
+        return {
+          id: item.prop,
+          data: [].concat(item.retain ? { model: _path([item.prop], collection) } : flatit(collection, item.mapper))
+            .map(mapit(item.template))
+        };
+      });
+  }
   return doc
-    .map(function(item) {
-      return {
-        id: item.prop,
-        data: [].concat(item.retain ? { model: _path([item.prop], collection) } : flatit(collection, item.mapper))
-          .map(mapit(item.template))
-      };
-    });
+    .reduce(function(result, item) {
+      result[item.prop] = [].concat(item.retain ? 
+          { model: _path([item.prop], collection) } : flatit(collection, item.mapper));
+      return result;
+    }, {});
 }
 
 module.exports = normalize;
