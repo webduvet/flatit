@@ -59,22 +59,20 @@ var _path = require('./path.js');
  *
  */
 function normalize(collection, doc, type) {
-  if (type === 'array') {
-    return doc
-      .map(function(item) {
-        return {
-          id: item.prop,
-          data: [].concat(item.retain ? { model: _path([item.prop], collection) } : flatit(collection, item.mapper))
-            .map(mapit(item.template))
-        };
-      });
+  function identityMapper(prop) {
+    return el => Object.assign(el, {
+      identity: prop
+    });
+  }
+  function propReducer(acc, level) {
+    const mapIdentity = identityMapper(level.prop);
+    let mapped = flatit(collection, level.mapper)
+      .map(mapit(level.template))
+      .map(mapIdentity); 
+    return acc.concat(mapped);
   }
   return doc
-    .reduce(function(result, item) {
-      result[item.prop] = [].concat(item.retain ? 
-          { model: _path([item.prop], collection) } : flatit(collection, item.mapper));
-      return result;
-    }, {});
+    .reduce(propReducer, []);
 }
 
 module.exports = normalize;
