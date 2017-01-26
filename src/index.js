@@ -65,10 +65,9 @@ function normalize(collection, doc, type) {
     });
   }
   function propReducer(acc, level) {
-    const mapIdentity = identityMapper(level.prop);
     let mapped = flatit(collection, level.mapper)
       .map(mapit(level.template))
-      .map(mapIdentity); 
+      .map(identityMapper(level.prop)); 
     return acc.concat(mapped);
   }
   return doc
