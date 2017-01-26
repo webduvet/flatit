@@ -72,31 +72,27 @@ mapper and property identifier on the final result.
 
 ```javascript
 desired output:
-{
-  id: 'items',
-  data: [
-    {
-      key: {
-        delegate: 'd01',
-        conference: 001,
-        speaker: 01
-      },
-      model: {
-        item-data
-      }
-    },
-    {
-      key: {
-        delegate: 'd01',
-        conference: 002
-        speaker: 01
-      },
-      model: {
-        item-data
-      }
-    }
-  ]
-}
+[{
+  identity: 'item',
+  key: {
+    delegate: 'd01',
+    conference: 001,
+    speaker: 01
+  },
+  model: {
+    item-data
+  }
+}, {
+  identity: 'item',
+  key: {
+    delegate: 'd01',
+    conference: 002,
+    speaker: 01
+  },
+  model: {
+    item-data
+  }
+}]
 ```
 sometimes there is a need to reshape the object and strip out all nested structure from the top level
 object or simple strip out all unwanted data, flat and map provides optional template property which
